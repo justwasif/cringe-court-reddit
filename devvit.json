@@ -1,0 +1,52 @@
+{
+  "$schema": "https://developers.reddit.com/schema/config-file.v1.json",
+  "name": "cringe-court",
+  "post": {
+    "dir": "dist/client",
+    "entrypoints": {
+      "default": {
+        "inline": true,
+        "entry": "splash.html"
+      },
+      "game": {
+        "entry": "game.html"
+      }
+    }
+  },
+  "server": {
+    "dir": "dist/server",
+    "entry": "index.cjs"
+  },
+  "permissions": {
+    "redis": true
+  },
+  "menu": {
+    "items": [
+      {
+        "label": "Open today's docket",
+        "description": "Create a CringeCourt post for the current daily case",
+        "location": "subreddit",
+        "forUserType": "moderator",
+        "endpoint": "/internal/menu/post-create"
+      },
+      {
+        "label": "Publish today's verdict",
+        "description": "Close voting and announce the result as a comment",
+        "location": "subreddit",
+        "forUserType": "moderator",
+        "endpoint": "/internal/menu/publish-verdict"
+      }
+    ]
+  },
+  "triggers": {
+    "onAppInstall": "/internal/triggers/on-app-install"
+  },
+  "scheduler": {
+    "tasks": {
+      "daily-docket": {
+        "endpoint": "/internal/scheduler/daily-docket",
+        "cron": "0 14 * * *"
+      }
+    }
+  }
+}
